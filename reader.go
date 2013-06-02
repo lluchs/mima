@@ -88,12 +88,12 @@ func Parse(in io.Reader) (*Program, error) {
 			if match[1] == "*" {
 				// Adjust the loading point.
 				lp = arg
-				// Continue to avoid increasing the load point by 1.
-				continue
 			} else {
 				// Save constant.
 				program.Marks[match[1]] = arg
 			}
+			// Continue to avoid increasing the load point by 1.
+			continue
 		} else if match := instructionRegex.FindStringSubmatch(line); match != nil {
 			// Handle instructions.
 			// Check for a mark.
