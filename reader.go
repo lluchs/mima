@@ -3,22 +3,22 @@
 package mima
 
 import (
+	"bufio"
+	"errors"
 	"fmt"
 	"io"
-	"bufio"
 	"regexp"
 	"strconv"
 	"strings"
-	"errors"
 )
 
 type Program struct {
-	Marks map[string] uint32
-	Instructions map[uint32] Instruction
+	Marks        map[string]uint32
+	Instructions map[uint32]Instruction
 }
 
 type Instruction struct {
-	Op string
+	Op       string
 	Argument string
 }
 
@@ -63,7 +63,7 @@ func Parse(in io.Reader) (*Program, error) {
 
 	scanner := bufio.NewScanner(in)
 	lineNum := 0
-	program := &Program{Marks: make(map[string] uint32), Instructions: make(map[uint32] Instruction)}
+	program := &Program{Marks: make(map[string]uint32), Instructions: make(map[uint32]Instruction)}
 	// Loading Point: where to insert instructions
 	var lp uint32 = 0
 	// Read input linewise.
@@ -103,7 +103,7 @@ func Parse(in io.Reader) (*Program, error) {
 			}
 			// Add an instruction.
 			program.Instructions[lp] = Instruction{
-				Op: match[2],
+				Op:       match[2],
 				Argument: match[4],
 			}
 		} else {

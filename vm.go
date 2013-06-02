@@ -75,6 +75,6 @@ func (bytecode *Bytecode) Run() ([]uint32, error) {
 		}
 	}
 
-	Out:
+Out:
 	return mem, nil
 }

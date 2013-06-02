@@ -8,7 +8,7 @@ import (
 
 type Bytecode struct {
 	Start uint32
-	Mem []uint32
+	Mem   []uint32
 }
 
 // Assembles the calling program.
@@ -40,20 +40,34 @@ func (program *Program) Assemble() (*Bytecode, error) {
 		}
 		// Translate the instructions.
 		switch instruction.Op {
-		case "DS":   result = arg
-		case "LDC":  saveArg(0)
-		case "LDV":  saveArg(1)
-		case "STV":  saveArg(2)
-		case "ADD":  saveArg(3)
-		case "AND":  saveArg(4)
-		case "OR":   saveArg(5)
-		case "XOR":  saveArg(6)
-		case "EQL":  saveArg(7)
-		case "JMP":  saveArg(8)
-		case "JMN":  saveArg(9)
-		case "HALT": result = 0xF00000
-		case "NOT":  result = 0xF10000
-		case "RAR":  result = 0xF20000
+		case "DS":
+			result = arg
+		case "LDC":
+			saveArg(0)
+		case "LDV":
+			saveArg(1)
+		case "STV":
+			saveArg(2)
+		case "ADD":
+			saveArg(3)
+		case "AND":
+			saveArg(4)
+		case "OR":
+			saveArg(5)
+		case "XOR":
+			saveArg(6)
+		case "EQL":
+			saveArg(7)
+		case "JMP":
+			saveArg(8)
+		case "JMN":
+			saveArg(9)
+		case "HALT":
+			result = 0xF00000
+		case "NOT":
+			result = 0xF10000
+		case "RAR":
+			result = 0xF20000
 
 		default:
 			return nil, errors.New("Invalid instruction: " + instruction.Op)
