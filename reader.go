@@ -59,7 +59,7 @@ func Parse(in io.Reader) (*Program, error) {
 	// LABEL LDV FOO
 	//       ADD EINS
 	//       HALT
-	instructionRegex := regexp.MustCompile(`^(\w*)\s+(\w+)(\s+(\w+))?\s*$`)
+	instructionRegex := regexp.MustCompile(`^(\w*)\s+(\w+)(\s+(\$[0-9a-fA-F]+|\w+))?\s*$`)
 
 	scanner := bufio.NewScanner(in)
 	lineNum := 0
