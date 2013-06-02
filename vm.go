@@ -68,10 +68,10 @@ func (bytecode *Bytecode) Run() ([]uint32, error) {
 				Akku >>= 1
 				Akku += rot << 23
 			default:
-				return nil, errors.New(fmt.Sprintf("Invalid special OpCode F%X", op2))
+				return nil, errors.New(fmt.Sprintf("Invalid special OpCode F%X at 0x%06X", op2, IAR))
 			}
 		default:
-			return nil, errors.New(fmt.Sprintf("Invalid OpCode %X", op))
+			return nil, errors.New(fmt.Sprintf("Invalid OpCode %X at 0x%06X", op, IAR))
 		}
 	}
 
