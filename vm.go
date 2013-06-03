@@ -7,8 +7,27 @@ import (
 	"fmt"
 )
 
-// Runs the bytcode, returning the resulting memory.
+// Struct for the execution state used when debugging.
+type State struct {
+	Akku, IAR, IR uint32
+	Mem []uint32
+}
+
+// Type of the debugging function.
+type DebugFunc func(*State)
+
+// Runs the bytecode, returning the resulting memory.
 func (bytecode *Bytecode) Run() ([]uint32, error) {
+	return bytecode.run(nil)
+}
+
+// Runs the bytecode, calling the debug function after every execution step.
+func (bytecode *Bytecode) Debug(debug DebugFunc) ([]uint32, error) {
+	return bytecode.run(debug)
+}
+
+// Run implementation.
+func (bytecode *Bytecode) run(debug DebugFunc) ([]uint32, error) {
 	// Copy the bytecode as execution will probably change the memory.
 	mem := bytecode.Mem[:]
 	var Akku, IAR, IR uint32
@@ -72,6 +91,11 @@ func (bytecode *Bytecode) Run() ([]uint32, error) {
 			}
 		default:
 			return nil, errors.New(fmt.Sprintf("Invalid OpCode %X at 0x%06X", op, IAR))
+		}
+
+		// Call the debugging function when defined.
+		if debug != nil {
+			debug(&State{Akku, IAR, IR, mem})
 		}
 	}
 
