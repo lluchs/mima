@@ -3,6 +3,7 @@
 package mima
 
 import (
+	"fmt"
 	"errors"
 )
 
@@ -28,10 +29,14 @@ func (program *Program) Assemble() (*Bytecode, error) {
 		var result uint32 = 0
 		var arg uint32 = 0
 		// Try to resolve the argument.
-		if val, ok := program.Marks[instruction.Argument]; ok {
+		if instruction.Argument == "" {
+			arg = 0
+		} else if val, ok := program.Marks[instruction.Argument]; ok {
 			arg = val
 		} else if val, err := instruction.ParseArgument(); err == nil {
 			arg = val
+		} else {
+			return nil, errors.New(fmt.Sprintf("Invalid Argument '%s'", instruction.Argument))
 		}
 		// Save opcode/argument.
 		saveArg := func(opcode uint32) {
